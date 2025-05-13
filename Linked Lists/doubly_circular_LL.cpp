@@ -18,6 +18,7 @@ class DoublyCircularLinkedList{
     private:
     Node*head;
 
+    public:
     DoublyCircularLinkedList(){
         head = nullptr;
     }
@@ -67,12 +68,61 @@ class DoublyCircularLinkedList{
             return;
         }
         Node* tail = head->prev;
-        Node* temp = head
+        Node* temp = head;
+        head = head->next;
+        tail->next = head;
+        head->prev = tail;
+        delete temp;
+    }
+
+    void deleteTail(){
+        if(head == nullptr){
+            cout << "List is empty." << endl;
+            return;
+        }
+        if(head->next == head){
+            delete head;
+            head = nullptr;
+            return;
+        }
+        Node* tail = head->prev;
+        Node* newTail = tail->prev;
+        newTail->next = head;
+        head->prev = newTail;
+        delete tail;
+    }
+
+    void display(){
+        if(head == nullptr){
+            cout<<"List is empty"<<endl;
+            return;
+        }
+        Node* temp = head;
+        do{
+            cout<<temp->data<<" ";
+            temp = temp->next;
+        }while(temp != head);
+        cout<<endl;
     }
 };
 
 
 int main(){
+    DoublyCircularLinkedList list;
+    list.insertAtHead(10);
+    list.insertAtHead(20);
+    list.insertAtTail(5);
+    list.display();
+    
+    list.deleteHead();
+    list.display();
+
+    list.deleteTail();
+    list.display();
+
+    list.deleteHead();
+    list.display();
+
 
     return 0;
 }
